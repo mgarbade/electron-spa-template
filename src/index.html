@@ -4,19 +4,22 @@
     <meta charset="UTF-8">
     <title>SPA with IPC</title>
     <script defer src="renderer.js"></script>
+    <link rel="stylesheet" href="styles/master.css">
 </head>
 <body>
-    <header>
+    <header id="header">
         <h1>My SPA</h1>
     </header>
-    <nav>
-        <button id="loadPage1">Page 1</button>
-        <button id="loadPage2">Page 2</button>
+    <nav id="nav">
+        <ul>
+            <button id="loadPage1">Page 1</button>
+            <button id="loadPage2">Page 2</button>
+        </ul>
     </nav>
     <main id="content">
         <!-- Content will be loaded here -->
     </main>
-    <footer>
+    <footer id="footer">
         <p>Footer content here</p>
     </footer>
 </body>
