@@ -6,7 +6,9 @@ function createWindow () {
         width: 800,
         height: 600,
         webPreferences: {
-            preload: path.join(__dirname, 'src/preload.js')
+            nodeIntegration: true,
+            contextIsolation: false,
+            preload: path.join(__dirname, 'preload.js')
         }
     });
 
@@ -16,7 +18,27 @@ function createWindow () {
 app.whenReady().then(() => {
     createWindow();
 
-    ipcMain.on('button-click', (event, arg) => {
-        console.log(arg); // Handle IPC messages
-    });
+
+});
+
+ipcMain.handle('get-version', () => {
+    const version = app.getVersion();
+    console.log('Version:', version);
+    return version;
+});
+
+ipcMain.on('button-click', (event, arg) => {
+    console.log(arg);
+});
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
+});
+
+app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+    }
 });

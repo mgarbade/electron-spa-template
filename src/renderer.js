@@ -1,3 +1,5 @@
+const { ipcRenderer } = require('electron');
+
 document.getElementById('loadPage1').addEventListener('click', () => loadPage('page1.html'));
 document.getElementById('loadPage2').addEventListener('click', () => loadPage('page2.html'));
 
@@ -25,3 +27,19 @@ function attachEventHandlers() {
         });
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded');
+
+    // Request version from main process
+    ipcRenderer.invoke('get-version')
+        .then(version => {
+            document.querySelector('#footer p').textContent = `Version ${version}`;
+        })
+        .catch(err => {
+            console.error('Failed to get version:', err);
+        });
+        
+    // Load initial page
+    loadPage('page1.html');
+});
