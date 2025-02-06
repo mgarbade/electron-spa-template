@@ -16,14 +16,14 @@ function attachEventHandlers() {
     const page1Button = document.getElementById('page1Button');
     if (page1Button) {
         page1Button.addEventListener('click', () => {
-            window.electronAPI.send('button-click', 'Page 1 button clicked!');
+            ipcRenderer.send('button-click', 'Page 1 button clicked!');
         });
     }
 
     const page2Button = document.getElementById('page2Button');
     if (page2Button) {
         page2Button.addEventListener('click', () => {
-            window.electronAPI.send('button-click', 'Page 2 button clicked!');
+            ipcRenderer.send('button-click', 'Page 2 button clicked!');
         });
     }
 }
