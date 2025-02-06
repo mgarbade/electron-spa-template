@@ -1,0 +1,40 @@
+{
+    "name": "electron-spa-template",
+    "productName": "Electron Spa Template",
+    "version": "1.0.0",
+    "description": "Electron Spa Template",
+    "main": "src/main.js",
+    "scripts": {
+      "start": "electron .",
+      "build": "electron-builder"
+    },
+    "devDependencies": {
+      "electron": "latest",
+      "electron-builder": "latest"
+    },
+    "build": {
+      "appId": "com.electron.spa",
+      "extraResources": [
+        {
+          "from": "./app/",
+          "to": "app",
+          "filter": [
+            "**/*"
+          ]
+        }
+      ],
+      "mac": {
+        "category": "public.app-category.developer-tools"
+      },
+      "win": {
+        "target": "portable"
+      },
+      "linux": {
+        "target": "AppImage"
+      },
+      "portable": {
+        "artifactName": "${productName}-${version}-${arch}.${ext}"
+      }
+    }
+  }
+  
