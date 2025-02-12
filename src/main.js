@@ -42,6 +42,7 @@ const dockerManager = require('./services/docker-manager');
 ipcMain.on('start-containers', () => dockerManager.startContainers(mainWindow));
 ipcMain.on('stop-containers', () => dockerManager.stopContainers(mainWindow));
 ipcMain.on('remove-software', () => dockerManager.removeSoftware(mainWindow));
+
 ipcMain.handle('check-container-status', () => {
     return dockerManager.checkContainerStatus();
 });
