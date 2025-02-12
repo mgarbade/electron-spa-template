@@ -1,0 +1,46 @@
+/* Style the tab links */
+.tablinks {
+    background-color: #f0f0f0; /* Light grey background */
+    color: #333;             /* Black text for better contrast */
+    float: left;
+    border: 1px solid #f0f0f0; /* Light grey border */
+    outline: none;
+    cursor: pointer;
+    padding: 10px 15px;       /* Adjust padding for better spacing */
+    transition: 0.3s;
+    font-size: 16px;          /* Slightly smaller font size for a cleaner look */
+    font-family: Arial, sans-serif; /* Optional: matches font to the rest of the layout */
+}
+
+/* Change background color of tabs on hover and focus */
+.tablinks:hover, .tablinks:focus {
+    background-color: #c7c7c7; /* Slightly darker grey on hover */
+    color: #333;
+}
+
+/* Style for active tab link */
+.tablinks.active {
+    background-color: #a8a8a8; /* Even darker grey for active tab */
+    color: #333;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 20px;             /* More padding for readability */
+    border: 1px solid #f0f0f0;   /* Consistent border color */
+    border-top: none;
+    font-family: Arial, sans-serif; /* Matching font to the rest of the layout */
+}
+
+/* Clear floats after the tabs */
+.tabs:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Optional: Adding some margin to the tab buttons container for better spacing */
+.tabs {
+    margin-bottom: 10px;
+}
