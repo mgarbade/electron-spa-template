@@ -18,6 +18,9 @@ function createWindow () {
     })
 
     mainWindow.loadFile('src/index.html')
+    mainWindow.on('ready-to-show', () => {
+        mainWindow.show();
+    });
 }
 
 app.whenReady().then(() => {

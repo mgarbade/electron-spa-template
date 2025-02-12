@@ -31,9 +31,7 @@ function startContainers(mainWindow) {
     
     isOperationRunning = true;
     console.log('Starting containers...');
-    setTimeout(() => {
-        mainWindow.webContents.send('docker-log', 'starting');
-    }, 1);    
+    mainWindow.webContents.send('docker-log', 'starting');
     
     currentProcess = spawn('bash', ['-c', `
         echo "Creating network app_default..."
@@ -64,9 +62,7 @@ function stopContainers(mainWindow) {
 
     isOperationRunning = true;
     console.log('Stopping containers...');
-    setTimeout(() => {
-        mainWindow.webContents.send('docker-log', 'stopping');
-    }, 1);
+    mainWindow.webContents.send('docker-log', 'stopping');
 
     currentProcess = spawn('bash', ['-c', `
         echo "Stopping web service..."
@@ -95,9 +91,7 @@ function removeSoftware(mainWindow) {
 
     isOperationRunning = true;
     console.log('Removing software...');
-    setTimeout(() => {
-        mainWindow.webContents.send('docker-log', 'removing');
-    }, 1);    
+    mainWindow.webContents.send('docker-log', 'removing');
 
     currentProcess = spawn('bash', ['-c', `
         echo "Removing containers and volumes..."
