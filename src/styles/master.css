@@ -44,14 +44,15 @@ body {
 }
 
 #footer {
-    grid-area: footer; /* This is correct */
+    grid-area: footer;
     background-color: #f0f0f0;
     color: #333;
     text-align: center;
     width: 100%;
-
-    bottom: 0;
     height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
