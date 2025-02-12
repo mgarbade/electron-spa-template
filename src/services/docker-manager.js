@@ -6,14 +6,17 @@ let currentProcess = null;
 let isOperationRunning = false;
 
 function checkDocker() {
-    try {
-        // This will fail if Docker engine is not running
-        const result = spawn('docker', ['ps']);
-        return true;
-    } catch {
-        return false;
-    }
+    return new Promise((resolve, reject) => {
+        const process = spawn('docker', ['ps']);
+        process.on('exit', (code) => {
+            resolve(code === 0);
+        });
+        process.stderr.on('data', (data) => {
+            reject(data.toString());
+        });
+    });
 }
+
 
 function killCurrentProcess() {
     if (currentProcess) {
