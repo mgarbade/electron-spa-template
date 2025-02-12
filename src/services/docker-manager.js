@@ -15,17 +15,23 @@ function checkDocker() {
     }
 }
 
-function startContainers(mainWindow) {
+function killCurrentProcess() {
     if (currentProcess) {
+        console.log('Killing current process...');
         currentProcess.kill();
+        currentProcess = null;
     }
+}
+
+function startContainers(mainWindow) {
+    killCurrentProcess();
     
     isOperationRunning = true;
     console.log('Starting containers...');
     setTimeout(() => {
         mainWindow.webContents.send('docker-log', 'starting');
     }, 1);    
-
+    
     currentProcess = spawn('bash', ['-c', `
         echo "Creating network app_default..."
         sleep 2
@@ -34,11 +40,11 @@ function startContainers(mainWindow) {
         echo "Starting containers..."
         sleep 2
         echo "All containers are up and running!"
-    `]);
-
-    currentProcess.stdout.on('data', (data) => {
-        mainWindow.webContents.send('docker-log', data.toString());
-    });
+        `]);
+        
+        currentProcess.stdout.on('data', (data) => {
+            mainWindow.webContents.send('docker-log', data.toString());
+        });
 
     currentProcess.on('close', (code) => {
         if (code === 0) {
@@ -46,13 +52,12 @@ function startContainers(mainWindow) {
         }
         isOperationRunning = false;
         currentProcess = null;
+        console.log('Containers started successfully');
     });
 }
 
 function stopContainers(mainWindow) {
-    if (currentProcess) {
-        currentProcess.kill();
-    }
+    killCurrentProcess();
 
     isOperationRunning = true;
     console.log('Stopping containers...');
@@ -78,13 +83,12 @@ function stopContainers(mainWindow) {
         }
         isOperationRunning = false;
         currentProcess = null;
+        console.log('Containers stopped successfully');
     });
 }
 
 function removeSoftware(mainWindow) {
-    if (currentProcess) {
-        currentProcess.kill();
-    }
+    killCurrentProcess();
 
     isOperationRunning = true;
     console.log('Removing software...');
@@ -112,6 +116,7 @@ function removeSoftware(mainWindow) {
         }
         isOperationRunning = false;
         currentProcess = null;
+        console.log('Software removed successfully');
     });
 }
 
