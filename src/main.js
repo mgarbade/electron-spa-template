@@ -4,8 +4,10 @@ electronReload(__dirname); // Pass the path to your main process file
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 
+let mainWindow;
+
 function createWindow () {
-    const win = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
@@ -15,7 +17,7 @@ function createWindow () {
         }
     })
 
-    win.loadFile('src/index.html')
+    mainWindow.loadFile('src/index.html')
 }
 
 app.whenReady().then(() => {
@@ -37,9 +39,9 @@ app.whenReady().then(() => {
 // Docker Manager
 const dockerManager = require('./services/docker-manager');
 
-ipcMain.on('start-containers', () => dockerManager.startContainers(mainWindow, basePath));
-ipcMain.on('stop-containers', () => dockerManager.stopContainers(mainWindow, basePath));
-ipcMain.on('remove-software', () => dockerManager.removeSoftware(mainWindow, basePath));
+ipcMain.on('start-containers', () => dockerManager.startContainers(mainWindow));
+ipcMain.on('stop-containers', () => dockerManager.stopContainers(mainWindow));
+ipcMain.on('remove-software', () => dockerManager.removeSoftware(mainWindow));
 ipcMain.handle('check-container-status', () => {
     return dockerManager.checkContainerStatus();
 });

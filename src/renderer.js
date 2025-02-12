@@ -48,15 +48,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // Docker control buttons
-    document.getElementById('startContainers').addEventListener('click', () => {
+    document.getElementById('startContainersBtn').addEventListener('click', () => {
         window.electronAPI.startContainers();
     });
 
-    document.getElementById('stopContainers').addEventListener('click', () => {
+    document.getElementById('stopContainersBtn').addEventListener('click', () => {
         window.electronAPI.stopContainers();
     });
 
-    document.getElementById('removeSoftware').addEventListener('click', () => {
+   
+    document.getElementById('removeSoftwareBtn').addEventListener('click', () => {
         window.electronAPI.removeSoftware();
     });
 
