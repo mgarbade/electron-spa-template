@@ -2,6 +2,9 @@ const { spawn } = require('child_process');
 const { dialog } = require('electron');
 const path = require('path');
 
+let currentProcess = null;
+let isOperationRunning = false;
+
 function checkDocker() {
     try {
         // This will fail if Docker engine is not running
@@ -12,86 +15,104 @@ function checkDocker() {
     }
 }
 
-let currentDockerProcess = null;
-
-let isOperationRunning = false;
-
 function startContainers(mainWindow) {
-    console.log('Starting containers...');
-    isOperationRunning = true;
-    console.log('Starting containers simulation...');
+    if (currentProcess) {
+        currentProcess.kill();
+    }
     
+    isOperationRunning = true;
+    console.log('Starting containers...');
     setTimeout(() => {
         mainWindow.webContents.send('docker-log', 'starting');
-    }, 1);
+    }, 1);    
 
-    setTimeout(() => {
-        mainWindow.webContents.send('docker-log', 'Creating network "app_default"...\n');
-    }, 1000);
-    
-    setTimeout(() => {
-        mainWindow.webContents.send('docker-log', 'Building web service...\n');
-    }, 2000);
-    
-    setTimeout(() => {
-        mainWindow.webContents.send('docker-log', 'Starting containers...\n');
-    }, 3000);
-    
-    setTimeout(() => {
+    currentProcess = spawn('bash', ['-c', `
+        echo "Creating network app_default..."
+        sleep 2
+        echo "Building web service..."
+        sleep 2
+        echo "Starting containers..."
+        sleep 2
+        echo "All containers are up and running!"
+    `]);
+
+    currentProcess.stdout.on('data', (data) => {
+        mainWindow.webContents.send('docker-log', data.toString());
+    });
+
+    currentProcess.on('close', (code) => {
+        if (code === 0) {
+            mainWindow.webContents.send('containers-started');
+        }
         isOperationRunning = false;
-        mainWindow.webContents.send('containers-started');
-        mainWindow.webContents.send('docker-log', 'All containers are up and running!\n');
-    }, 4000);
+        currentProcess = null;
+    });
 }
 
 function stopContainers(mainWindow) {
-    isOperationRunning = true;
-    console.log('Stopping containers simulation...');
+    if (currentProcess) {
+        currentProcess.kill();
+    }
 
+    isOperationRunning = true;
+    console.log('Stopping containers...');
     setTimeout(() => {
         mainWindow.webContents.send('docker-log', 'stopping');
     }, 1);
-    
-    setTimeout(() => {
-        mainWindow.webContents.send('docker-log', 'Stopping web service...\n');
-    }, 1000);
-    
-    setTimeout(() => {
-        mainWindow.webContents.send('docker-log', 'Removing containers...\n');
-    }, 2000);
-    
-    setTimeout(() => {
+
+    currentProcess = spawn('bash', ['-c', `
+        echo "Stopping web service..."
+        sleep 2
+        echo "Removing containers..."
+        sleep 2
+        echo "All containers stopped successfully"
+    `]);
+
+    currentProcess.stdout.on('data', (data) => {
+        mainWindow.webContents.send('docker-log', data.toString());
+    });
+
+    currentProcess.on('close', (code) => {
+        if (code === 0) {
+            mainWindow.webContents.send('containers-stopped');
+        }
         isOperationRunning = false;
-        mainWindow.webContents.send('containers-stopped');
-        mainWindow.webContents.send('docker-log', 'All containers stopped successfully\n');
-    }, 3000);
+        currentProcess = null;
+    });
 }
 
 function removeSoftware(mainWindow) {
+    if (currentProcess) {
+        currentProcess.kill();
+    }
+
     isOperationRunning = true;
-    console.log('Removing software simulation...');
-    
+    console.log('Removing software...');
     setTimeout(() => {
         mainWindow.webContents.send('docker-log', 'removing');
     }, 1);    
-    
-    setTimeout(() => {
-        mainWindow.webContents.send('docker-log', 'Removing containers and volumes...\n');
-    }, 1000);
-    
-    setTimeout(() => {
-        mainWindow.webContents.send('docker-log', 'Cleaning up networks...\n');
-    }, 2000);
-    
-    setTimeout(() => {
-        mainWindow.webContents.send('docker-log', 'Removing images...\n');
-    }, 3000);
-    
-    setTimeout(() => {
+
+    currentProcess = spawn('bash', ['-c', `
+        echo "Removing containers and volumes..."
+        sleep 2
+        echo "Cleaning up networks..."
+        sleep 2
+        echo "Removing images..."
+        sleep 2
+        echo "Software completely removed!"
+    `]);
+
+    currentProcess.stdout.on('data', (data) => {
+        mainWindow.webContents.send('docker-log', data.toString());
+    });
+
+    currentProcess.on('close', (code) => {
+        if (code === 0) {
+            mainWindow.webContents.send('software-removed');
+        }
         isOperationRunning = false;
-        mainWindow.webContents.send('software-removed');
-        mainWindow.webContents.send('docker-log', 'Software completely removed!\n');
-    }, 4000);
+        currentProcess = null;
+    });
 }
 
 function checkContainerStatus() {
@@ -113,4 +134,3 @@ module.exports = {
     removeSoftware,
     checkContainerStatus
 };
-
