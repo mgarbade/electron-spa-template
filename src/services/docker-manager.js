@@ -22,6 +22,10 @@ function startContainers(mainWindow) {
     console.log('Starting containers simulation...');
     
     setTimeout(() => {
+        mainWindow.webContents.send('docker-log', 'starting');
+    }, 1);
+
+    setTimeout(() => {
         mainWindow.webContents.send('docker-log', 'Creating network "app_default"...\n');
     }, 1000);
     
@@ -43,6 +47,10 @@ function startContainers(mainWindow) {
 function stopContainers(mainWindow) {
     isOperationRunning = true;
     console.log('Stopping containers simulation...');
+
+    setTimeout(() => {
+        mainWindow.webContents.send('docker-log', 'stopping');
+    }, 1);
     
     setTimeout(() => {
         mainWindow.webContents.send('docker-log', 'Stopping web service...\n');
@@ -62,6 +70,10 @@ function stopContainers(mainWindow) {
 function removeSoftware(mainWindow) {
     isOperationRunning = true;
     console.log('Removing software simulation...');
+    
+    setTimeout(() => {
+        mainWindow.webContents.send('docker-log', 'removing');
+    }, 1);    
     
     setTimeout(() => {
         mainWindow.webContents.send('docker-log', 'Removing containers and volumes...\n');

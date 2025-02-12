@@ -38,7 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.electronAPI.onDockerLog((event, message) => {
         console.log('Docker log:', message);
-        if (message.includes('Starting')) updateStatus('Starting...');
-        if (message.includes('Stopping')) updateStatus('Stopping...');
+        // updateStatus(message);
+        if (message == 'starting') updateStatus('Starting...');
+        if (message == 'stopping') updateStatus('Stopping...');
+        if (message == 'removing') updateStatus('Removing...');
     });
 });
