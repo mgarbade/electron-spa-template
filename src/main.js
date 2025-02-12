@@ -1,3 +1,6 @@
+// In your main process file (e.g., main.js)
+const electronReload = require('electron-reload');
+electronReload(__dirname); // Pass the path to your main process file
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 

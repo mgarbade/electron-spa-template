@@ -10,7 +10,8 @@
     },
     "devDependencies": {
       "electron": "latest",
-      "electron-builder": "latest"
+      "electron-builder": "latest",
+      "electron-reload": "^2.0.0-alpha.1"
     },
     "build": {
       "appId": "com.electron.spa",
