@@ -45,4 +45,34 @@ document.addEventListener('DOMContentLoaded', () => {
             window.electronAPI.send('button-click', 'Page 2 button clicked!')
         })
     }
+
+
+    // Docker control buttons
+    document.getElementById('startContainers').addEventListener('click', () => {
+        window.electronAPI.startContainers();
+    });
+
+    document.getElementById('stopContainers').addEventListener('click', () => {
+        window.electronAPI.stopContainers();
+    });
+
+    document.getElementById('removeSoftware').addEventListener('click', () => {
+        window.electronAPI.removeSoftware();
+    });
+
+    window.electronAPI.onContainersStarted((event, message) => {
+        console.log('Containers started successfully');
+    });
+
+    window.electronAPI.onContainersStopped((event, message) => {
+        console.log('Containers stopped successfully');
+    });
+
+    window.electronAPI.onSoftwareRemoved((event, message) => {
+        console.log('Software removed successfully');
+    });
+
+    window.electronAPI.onDockerLog((event, message) => {
+        console.log('Docker log:', message);
+    });
 });
