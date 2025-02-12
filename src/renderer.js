@@ -28,4 +28,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Show Page 1 by default
     showPage('page1');
+
+    // Page 1 Buttons
+    const page1Button = document.getElementById('page1Button')
+    if (page1Button) {
+        page1Button.addEventListener('click', () => {
+            window.electronAPI.send('button-click', 'Page 1 button clicked!')
+        })
+    }
+
+
+    // Page 2 Buttons
+    const page2Button = document.getElementById('page2Button')
+    if (page2Button) {
+        page2Button.addEventListener('click', () => {
+            window.electronAPI.send('button-click', 'Page 2 button clicked!')
+        })
+    }
 });
